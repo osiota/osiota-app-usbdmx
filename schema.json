@@ -5,7 +5,8 @@
 	"properties": {
 		"device": {
 			"type": "string",
-			"title": "USB device"
+			"title": "USB device",
+			"examples": ["/dev/ttyUSB0"]
 		},
 		"map": {
 			"type": "array",
@@ -15,21 +16,24 @@
 				"type": "object",
 				"title": "DMX channel",
 				"properties": {
-					"map": {
-						"title": "Node Name",
-						"type": "string"
-					},
 					"channel": {
 						"title": "Channel",
 						"type": "number",
 						"minimum": 1,
-						"maximum": 512
+						"maximum": 512,
+						"examples": [ 1 ]
+					},
+					"node": {
+						"title": "Node Name",
+						"type": "string",
+						"examples": [ "/my-dmx-channel" ]
 					},
 					"default_value": {
 						"title": "Default Value",
 						"type": "number",
 						"minimum": 0,
-						"maximum": 255
+						"maximum": 255,
+						"examples": [ 63 ]
 					}
 				},
 				"additionalProperties": false
