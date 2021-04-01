@@ -1,31 +1,38 @@
 {
 	"type": "object",
-	"title": "Settings",
+	"title": "osiota application usbdmx",
+	"description": "This application allows controlling lights via a DMX usb adapter.",
 	"properties": {
 		"device": {
 			"type": "string",
 			"title": "USB device"
 		},
-		"nodes": {
+		"map": {
 			"type": "array",
 			"format": "table",
 			"title": "DMX channels",
 			"items": {
 				"type": "object",
-				"title": "Mapping",
+				"title": "DMX channel",
 				"properties": {
-					"node": {
+					"map": {
+						"title": "Node Name",
 						"type": "string"
 					},
-					"address": {
+					"channel": {
+						"title": "Channel",
 						"type": "number",
-						"minimum": 0
+						"minimum": 1,
+						"maximum": 512
 					},
-					"default": {
-						"type": "number"
+					"default_value": {
+						"title": "Default Value",
+						"type": "number",
+						"minimum": 0,
+						"maximum": 255
 					}
 				},
-				"required": ["node", "address"]
+				"additionalProperties": false
 			}
 		}
 	},

@@ -21,7 +21,7 @@ exports.init = function(node, app_config, main, host_info) {
 		app_config.nodes = {};
 	}
 	if (typeof app_config.device !== "string") {
-		app_config.device ='/dev/cu.wchusbserial640';
+		app_config.device = '/dev/ttyUSB0';
 	}
 
 	var port = new SerialPort(app_config.device, {
@@ -47,6 +47,7 @@ exports.init = function(node, app_config, main, host_info) {
 
 	port.init = function() {
 		port.write_bytes(String.fromCharCode(0x22));
+		//port.write_bytes(Buffer.from([0x22]));
 	};
 	port.set = function(channel, value) {
 		//console.log("SET", channel, value);
@@ -56,75 +57,63 @@ exports.init = function(node, app_config, main, host_info) {
 		channel &= 0xFF;
 		value &= 0xFF;
 		port.write_bytes(String.fromCharCode(cmd, channel, value));
+		//port.write_bytes(Buffer.from([cmd, channel, value]);
 	};
+
+	var co = [];
 
 	port.on('open', function() {
 		console.log("opened dmx");
 		port.init();
 
-	node.rpc_dmx = function(reply, channel, value) {
-		if (value === null)
-			value = 0;
-		if (typeof value !== "number")
-			value *= 1;
-
-		port.set(channel, value);
-
-		reply(null, "okay");
-	};
-	node.dmx = function(channel, value) {
-		if (value === null)
-			value = 0;
-		if (typeof value !== "number")
-			value *= 1;
-
-		port.set(channel, value);
-	};
-	node.announce({
-		"type": "dmx.rpc"
-	});
-
-	// set loop (see artnet)
-	for (var n in app_config.nodes) {
-		var channel = app_config.nodes[n];
-		var default_value = null;
-		var nn = node.node(n);
-
-		if (Array.isArray(channel)) {
-			if (channel.length >= 2) {
-				default_value = channel[1];
-			}
-			channel = channel[0];
-		}
-
-		if (typeof channel === "object" &&
-				typeof channel.channel === "number" &&
-				typeof channel.value === "number") {
-			default_value = channel.value;
-			channel = channel.channel;
-		}
-
-		(function(nn, channel, default_value) {
-		nn.rpc_set = function(reply, value) {
+		node.rpc_dmx = function(reply, channel, value) {
 			if (value === null)
-				value = default_value;
+				value = 0;
 			if (typeof value !== "number")
 				value *= 1;
 
 			port.set(channel, value);
-			this.publish(undefined, value);
 
-			reply(null, "ok");
+			reply(null, "okay");
 		};
-		})(nn, channel, default_value);
+		node.dmx = function(channel, value) {
+			if (value === null)
+				value = 0;
+			if (typeof value !== "number")
+				value *= 1;
 
-		if (default_value !== null) {
-			nn.rpc_set(function() {}, default_value);
-		}
-	}
-	// end set loop
+			port.set(channel, value);
+		};
+		node.announce({
+			"type": "dmx.rpc"
+		});
+
+		// map block (see artnet)
+		var map = node.map(app_config, null, true, null,
+				function(n, metadata, c) {
+			let channel = c.channel;
+			let default_value = c.default_value;
+			n.rpc_set = function(reply, value, time) {
+				if (value === null)
+					value = default_value;
+				if (typeof value !== "number")
+					value *= 1;
+
+				port.set(channel, value);
+				this.publish(undefined, value, time);
+
+				reply(null, "ok");
+			};
+			n.announce(metadata);
+			if (default_value !== null) {
+				n.rpc_set(function() {}, default_value);
+			}
+		});
+		// end map block
+
+		co.push(map);
 	});
 
-	return [node, port];
+	return [co, node, port];
 };
 
