@@ -1,15 +1,21 @@
 {
-  "name": "er-app-usbdmx",
+  "name": "osiota-app-usbdmx",
   "version": "1.0.0",
-  "description": "",
+  "description": "This application allows controlling lights via a DMX usb adapter",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.ibr.cs.tu-bs.de:eneff-campus-2020/er-app-usbdmx.git"
+    "url": "https://github.com/osiota/osiota-app-usbdmx.git"
   },
-  "author": "",
-  "license": "",
+  "author": "Simon Walz and others",
+  "license": "MIT",
   "dependencies": {
     "serialport": "^6.2.1"
+  },
+  "scripts": {
+    "doc": "osiota-dev-doc-jsonschema --schema schema.json --app $npm_package_name"
+  },
+  "devDependencies": {
+    "osiota-dev": "^1.x"
   }
 }
