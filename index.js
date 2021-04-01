@@ -89,8 +89,9 @@ exports.init = function(node, app_config, main, host_info) {
 		});
 
 		// map block (see artnet)
-		var map = node.map(app_config, null, true, null,
-				function(n, metadata, c) {
+		var map = node.map(app_config, null, true, function(c) {
+			return c.channel;
+		}, function(n, metadata, c) {
 			let channel = c.channel;
 			let default_value = c.default_value;
 			n.rpc_set = function(reply, value, time) {
