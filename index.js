@@ -40,7 +40,7 @@ exports.init = function(node, app_config, main, host_info) {
 		var str = data.toString('binary');
 		console.log("DATA: " + showbytes(str));
 	});
-	 
+
 	port.on('error', function(err) {
 		console.error(err.stack || err);
 	});
