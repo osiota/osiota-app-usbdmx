@@ -1,6 +1,6 @@
 {
   "name": "osiota-app-usbdmx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This application allows controlling lights via a DMX usb adapter",
   "main": "index.js",
   "repository": {
