@@ -20,8 +20,8 @@ This application allows controlling lights via a DMX usb adapter.
 
 |Name|Description|Type|
 |----|-----------|----|
-|device|USB device<br/>|string|
-|[map](#map)|DMX channels<br/><br/>Format: `"table"`|object\[\]|
+|`device` (USB device)||string|
+|[`map`](#map) (DMX channels)||object\[\]|
 
 **Additional Properties:** `false`<br/>
 **Example**
@@ -48,9 +48,9 @@ This application allows controlling lights via a DMX usb adapter.
 
 |Name|Description|Type|
 |----|-----------|----|
-|channel|Channel<br/><br/>Minimum: `1`<br/>Maximum: `512`|number|
-|node|Node Name<br/>|string|
-|default\_value|Default Value<br/><br/>Minimum: `0`<br/>Maximum: `255`|number|
+|`channel` (Channel)|Minimum: `1`<br/>Maximum: `512`<br/>|number|
+|`node` (Node Name)||string|
+|`default_value` (Default Value)|Minimum: `0`<br/>Maximum: `255`<br/>|number|
 
 **Item Additional Properties:** `false`<br/>
 **Example**
