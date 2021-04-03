@@ -18,12 +18,12 @@ This application allows controlling lights via a DMX usb adapter.
 
 **Properties**
 
-|Name|Description|Type|
-|----|-----------|----|
-|`device` (USB device)||string|
-|[`map`](#map) (DMX channels)||object\[\]|
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**device**<br/>(USB device)|`string`||yes|
+|[**map**](#map)<br/>(DMX channels)|`object[]`||no|
 
-**Additional Properties:** `false`<br/>
+**Additional Properties:** not allowed<br/>
 **Example**
 
 ```json
@@ -46,13 +46,13 @@ This application allows controlling lights via a DMX usb adapter.
 
 **Item Properties**
 
-|Name|Description|Type|
-|----|-----------|----|
-|`channel`|Minimum: `1`<br/>Maximum: `512`<br/>|number|
-|`node` (Node Name)||string|
-|`default_value`|Minimum: `0`<br/>Maximum: `255`<br/>|number|
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**channel**|`number`|Minimum: `1`<br/>Maximum: `512`<br/>|yes|
+|**node**<br/>(Node Name)|`string`||no|
+|**default_value**|`number`|Minimum: `0`<br/>Maximum: `255`<br/>|no|
 
-**Item Additional Properties:** `false`<br/>
+**Item Additional Properties:** not allowed<br/>
 **Example**
 
 ```json

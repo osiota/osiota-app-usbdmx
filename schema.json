@@ -36,9 +36,11 @@
 						"examples": [ 63 ]
 					}
 				},
+				"required": [ "channel" ],
 				"additionalProperties": false
 			}
 		}
 	},
+	"required": [ "device" ],
 	"additionalProperties": false
 }
